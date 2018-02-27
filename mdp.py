@@ -70,7 +70,7 @@ def main():
     #     'f': ['go']
     # }
 
-    discount = 1
+    discount = 0.2
     actions = ['east', 'west', 'exit']
     states = ['TERMINAL_STATE', 'a', 'b', 'c', 'd', 'e']
 
