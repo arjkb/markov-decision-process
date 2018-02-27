@@ -89,7 +89,7 @@ def main():
 
     values = copy.deepcopy(old_values)
 
-    for i in range(5):
+    for i in range(100):
         # print("iteration #{}".format(i))
         for state in states:
             s = 0
