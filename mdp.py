@@ -89,23 +89,23 @@ def main():
 
     values = copy.deepcopy(old_values)
 
-    for i in range(5):
+    for i in range(100):
         # print("iteration #{}".format(i))
         for state in states:
-            s = 0
             q = list()
             for action in possible_actions[state]:
                 # print(" st={}, ac={}".format(state, action))
                 # ns, p = get_TP(state, action)
-                print(get_TP(state, action))
+                # print(get_TP(state, action))
+                s = 0
                 for ns, p in get_TP(state, action):
-                    print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
-                    s = p * (rewards(state, action, ns) + discount * old_values[ns])
+                    # print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
+                    s += p * (rewards(state, action, ns) + discount * old_values[ns])
 
                 # print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
                 # if ns not in old_values:
                 #     old_values[ns] = 0
-                s = p * (rewards(state, action, ns) + discount * old_values[ns])
+                # s = p * (rewards(state, action, ns) + discount * old_values[ns])
                 # s = sum(map(lambda ns, p: p * (rewards(state, action, ns) + discount*old_values[ns]), get_TP(state, action)))
                 # print(s)
                 q.append(s)
