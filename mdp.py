@@ -70,7 +70,7 @@ def main():
     #     'f': ['go']
     # }
 
-    discount = 0.2
+    discount = 1
     actions = ['east', 'west', 'exit']
     states = ['TERMINAL_STATE', 'a', 'b', 'c', 'd', 'e']
 
@@ -89,11 +89,12 @@ def main():
 
     values = copy.deepcopy(old_values)
 
-    for i in range(100):
+    for i in range(10):
         # print("iteration #{}".format(i))
         for state in states:
             s = 0
-            q = list()
+            q = dict()
+            # q = list()
             for action in possible_actions[state]:
                 # print(" st={}, ac={}".format(state, action))
                 ns, p = get_TP(state, action)
@@ -102,9 +103,13 @@ def main():
                 s = p * (rewards(state, action, ns) + discount * old_values[ns])
                 # s = sum(map(lambda ns, p: p * (rewards(state, action, ns) + discount*old_values[ns]), get_TP(state, action)))
                 # print(s)
-                q.append(s)
-            # print(q)
-            values[state] = max(q) if (len(q) > 0) else 0
+                if action not in q:
+                    q[action] = 0
+                # q.append(s)
+                q[action] = s
+            print(" st={} | q = {}".format(state, q))
+            # values[state] = max(q) if (len(q) > 0) else 0
+            values[state] = max(q.values()) if (len(q) > 0) else 0
         print(" iter {}, values = {}".format(i, values))
         old_values = copy.deepcopy(values)
 
