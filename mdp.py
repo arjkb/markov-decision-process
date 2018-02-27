@@ -35,7 +35,7 @@ def foo(st, ac):
 def main():
     old_values = dict()
     values = dict()
-    discount = 1
+    discount = 0.2
     actions = ['east', 'west', 'exit']
     states = ['TERMINAL_STATE', 'a', 'b', 'c', 'd', 'e']
 
@@ -55,7 +55,7 @@ def main():
     values = copy.deepcopy(old_values)
 
     for i in range(5):
-        print("iteration #{}".format(i))
+        # print("iteration #{}".format(i))
         for state in states:
             s = 0
             q = list()
@@ -71,7 +71,7 @@ def main():
                 q.append(s)
             # print(q)
             values[state] = max(q) if (len(q) > 0) else 0
-        print(values)
+        print(" iter {}, values = {}".format(i, values))
         old_values = copy.deepcopy(values)
 
     print(values)
