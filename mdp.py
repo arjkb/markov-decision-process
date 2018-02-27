@@ -2,19 +2,20 @@ import copy
 
 def get_TP(state, action):
     if state == 'TERMINAL_STATE':
-        return [(None, 0)]
+        return [((None, 0))]
     elif (state, action) == ('a', 'go'):
-        [('b', 0.5), ('c', 0.5)]
+        # print("ha!")
+        return [('b', 0.5), ('c', 0.5)]
     elif (state, action) == ('b', 'go'):
-        [('d', 1)]
+        return [('d', 1)]
     elif (state, action) == ('c', 'go'):
-        [('a', 0.5), ('e', 0.5)]
+        return [('a', 0.5), ('e', 0.5)]
     elif (state, action) == ('d', 'go'):
-        [('f', 1)]
+        return [('f', 1)]
     elif (state, action) == ('e', 'go'):
-        [('d', 0.5), ('f', 0.5)]
+        return [('d', 0.5), ('f', 0.5)]
     elif (state, action) == ('f', 'go'):
-        [('TERMINAL_STATE', 1)]
+        return [('TERMINAL_STATE', 1)]
 
 
 def rewards(state, action, ns):
@@ -95,10 +96,15 @@ def main():
             q = list()
             for action in possible_actions[state]:
                 # print(" st={}, ac={}".format(state, action))
-                ns, p = get_TP(state, action)
+                # ns, p = get_TP(state, action)
+                print(get_TP(state, action))
+                for ns, p in get_TP(state, action):
+                    print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
+                    s = p * (rewards(state, action, ns) + discount * old_values[ns])
+
                 # print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
-                if ns not in old_values:
-                    old_values[ns] = 0
+                # if ns not in old_values:
+                #     old_values[ns] = 0
                 s = p * (rewards(state, action, ns) + discount * old_values[ns])
                 # s = sum(map(lambda ns, p: p * (rewards(state, action, ns) + discount*old_values[ns]), get_TP(state, action)))
                 # print(s)
