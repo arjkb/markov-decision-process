@@ -1,20 +1,5 @@
 import copy
 
-old_values = dict()
-values = dict()
-discount = 1
-actions = ['east', 'west', 'exit']
-states = ['TERMINAL_STATE', 'a', 'b', 'c', 'd', 'e']
-
-possible_actions = {
-    'TERMINAL_STATE': [],
-    'a': ['exit'],
-    'b': ['east', 'west'],
-    'c': ['east', 'west'],
-    'd': ['east', 'west'],
-    'e': ['exit']
-}
-
 def get_TP(state, action):
     if state == 'TERMINAL_STATE':
         return (None, 0)
@@ -48,22 +33,48 @@ def foo(st, ac):
         return ('bye', 404)
 
 def main():
+    old_values = dict()
+    values = dict()
+    discount = 1
+    actions = ['east', 'west', 'exit']
+    states = ['TERMINAL_STATE', 'a', 'b', 'c', 'd', 'e']
+
+    possible_actions = {
+        'TERMINAL_STATE': [],
+        'a': ['exit'],
+        'b': ['east', 'west'],
+        'c': ['east', 'west'],
+        'd': ['east', 'west'],
+        'e': ['exit']
+    }
+
+    for state in states:
+        if state not in old_values:
+            old_values[state] = 0
+
+    values = copy.deepcopy(old_values)
+
     for i in range(5):
         print("iteration #{}".format(i))
         for state in states:
             s = 0
             q = list()
             for action in possible_actions[state]:
-                print(" st={}, ac={}".format(state, action))
+                # print(" st={}, ac={}".format(state, action))
                 ns, p = get_TP(state, action)
-                print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
+                # print(" {} -{}-> {}, p = {}".format(state, action, ns, p))
                 if ns not in old_values:
                     old_values[ns] = 0
-                s += p * (rewards(state, action, ns) + discount * old_values[ns])
+                s = p * (rewards(state, action, ns) + discount * old_values[ns])
                 # s = sum(map(lambda ns, p: p * (rewards(state, action, ns) + discount*old_values[ns]), get_TP(state, action)))
-                print(s)
+                # print(s)
                 q.append(s)
+            # print(q)
+            values[state] = max(q) if (len(q) > 0) else 0
+        print(values)
+        old_values = copy.deepcopy(values)
 
+    print(values)
 
 
 if __name__ == '__main__':
